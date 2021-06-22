@@ -80,9 +80,81 @@ def cho_han(guess, bet):
   print("Thanks for playing!")
   print("------------------------------")  
 
+#Card game
+def cards(bet):
+  global money
+  if bet < money:
+    payout = 0
+    print("Let's play a card game!")
+    print("Do you think you can draw a higher card than me? Let's play!")
+    #4 suits of cards, each with 13 cards in them
+    suit1 = list(range(1,14))
+    suit2 = list(range(1,14))
+    suit3 = list(range(1,14))
+    suit4 = list(range(1,14))
+    #full deck of cards
+    card_deck = suit1 + suit2 + suit3 + suit4
+    #player 1 draws a card
+    player1_draw = random.randint(0,51)
+    player1_card = card_deck[player1_draw]
+    #changing the display for the face cards
+    if player1_card == 1:
+      player1_card_disp = "A"
+    elif player1_card == 11:
+      player1_card_disp = "J"
+    elif player1_card == 12:
+      player1_card_disp = "Q"
+    elif player1_card == 13:
+      player1_card_disp = "K"
+    else:
+      player1_card_disp = player1_card
+    print("You reach into the deck of cards and pull out a " + str(player1_card_disp) + ".")
+    #remove the card player 1 drew from the deck:
+    card_deck2 = card_deck[:player1_draw] + card_deck[player1_draw + 1:]
+    player2_draw = random.randint(0,50)
+    player2_card = card_deck2[player2_draw]
+    if player2_card == 1:
+      player2_card_disp = "A"
+    elif player2_card == 11:
+      player2_card_disp = "J"
+    elif player2_card == 12:
+      player2_card_disp = "Q"
+    elif player2_card == 13:
+      player2_card_disp = "K"
+    else:
+      player2_card_disp = player2_card
+    print("I reach into the deck of cards and pull out a " + str(player2_card_disp) + ".")
+    #determine the winner:
+    if player1_card > player2_card:
+      print("You win!") 
+      print('Processing transaction...')
+      print(str(bet) + " credits have been added to your account.")
+      money += bet
+      print("Your new account balance is: " + str(money) + " credits.")
+    elif player1_card < player2_card:
+      print("You lose!")
+      print('Processing transaction...')
+      print(str(bet) + " credits have been subtracted from your account.")
+      payout += -1 * bet
+      money += payout
+      print("Your new account balance is: " + str(money) + " credits.")
+    else:
+      print("It's a tie!")
+      print("No money has been added or subtracted from your account.")
+  else:
+    print("Bet cannot exceed account balance!")
+    print("Please lower your bet.")
+    print("Bet must be less than " + str(money) + " credits.")
+  print("Thanks for playing!")
+  print("------------------------------")  
+
+
+
 
 #Call your game of chance functions here
 
 flip_coin('Heads', 10)
 cho_han('odd', 15)
+cards(10)
+
 
