@@ -148,13 +148,70 @@ def cards(bet):
   print("Thanks for playing!")
   print("------------------------------")  
 
+def roulette(guess, bet):
+  global money
+  if bet < money:
+    print("Let's play a game of Roulette!")
+    payout = 0
+    #roulette "wheel":
+    roulette_numbers = list(range(0, 38))
+    roulette_ball = random.randint(0,37)
+    #Convert guess to a string:
+    guess = str(guess)
+    #Create the display numbers:
+    if roulette_ball == 0:
+      roulette_display_num = "0"
+    elif roulette_ball == 37:
+      roulette_display_num = "00"
+    else:
+      roulette_display_num = str(roulette_ball)
+    # Bet names
+    Red = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+    Black = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
+    first_column = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
+    second_column = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
+    third_column = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
+    # Single number -- win if ball lands on chosen number
+    # 0 bet -- only win if lands on 0
+    # 00 bet -- only win if lands on 00
+    # Determine if the player wins:
+    print("You guessed that the ball would land on: " + str.lower(guess))
+    print("The ball is going around the wheel...")
+    print("It lands on " + str(roulette_display_num) + ".")
+    if (str.lower(guess) == "red" and roulette_ball in Red) or (str.lower(guess) == "black" and roulette_ball in Black):
+      print("You win!")
+      payout += bet
+    elif (str.lower(guess) == "odd" and roulette_ball % 2 > 0) or (str.lower(guess) == "even" and roulette_ball % 2 == 0):
+      print("You win!")
+      payout += bet
+    elif ((str.lower(guess) == "first" or str.lower(guess) == "1st") and roulette_ball in first_column) or ((str.lower(guess) == "second" or str.lower(guess) == "2nd") and roulette_ball in second_column) or ((str.lower(guess) == "third" or str.lower(guess) == "3rd") and roulette_ball in third_column):
+      print("You win!")
+      payout += 2 * bet
+    elif str.lower(guess) == roulette_display_num:
+      print("You win!")
+      payout += 35 * bet
+    else:
+      print("You lose!")
+      payout += -1 * bet
+    money += payout
+    #Payout print:
+    if payout < 0:
+      print(str(abs(payout)) + " credits have been subtracted from your account!")
+    else:
+      print(str(payout) + " credits have been added to your account.")
+    print("Your new account balance is: " + str(money) + " credits")
+  else:
+    print("Bet cannot exceed account balance!")
+    print("Please lower your bet.")
+    print("Bet must be less than " + str(money) + " credits.")
+  print("Thanks for playing!")
+  print("------------------------------")  
 
-
-
-#Call your game of chance functions here
+# game of chance functions
 
 flip_coin('Heads', 10)
 cho_han('odd', 15)
 cards(10)
+roulette('Red', 30)
 
 
